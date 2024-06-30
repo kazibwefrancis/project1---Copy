@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Client started..");
-        try(Socket soc = new Socket("localhost",2212);){
+        try(Socket soc = new Socket("localhost",8888);){
             BufferedReader in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
             PrintWriter out = new PrintWriter(soc.getOutputStream(),true);
             String request;
@@ -17,7 +17,7 @@ public class Main {
             showMenu();
             do{
                 System.out.print("IES_MCS>>");
-                request=scanner.nextLine();
+                request = scanner.nextLine();
                 out.println(request);
                 if(request.equalsIgnoreCase("done")){
                     break;
@@ -26,11 +26,13 @@ public class Main {
                 response=in.readLine();
                 System.out.println(response);
             }while(!request.equalsIgnoreCase("done"));
-
+               
+        scanner.close();
 
         }catch(IOException e){
             System.out.println(e.getMessage());
         }
+    
     }
 
     public static void showMenu(){

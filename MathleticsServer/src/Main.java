@@ -9,9 +9,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
+    static final String DB_URL = "jdbc:mysql://localhost:3306/dummy_db";
+    static String username = "root";
+    static String password = "";
     public static void main(String[] args) {
         ExecutorService executorService= Executors.newCachedThreadPool();
-        try(ServerSocket ss =new ServerSocket(2212)){
+        try(ServerSocket ss =new ServerSocket(8888)){
             System.out.println("Waiting for Client connection..");
             while(true) {
                 Socket soc = ss.accept();
@@ -42,6 +45,8 @@ public class Main {
                     case "login":
                         //call appropriate method
                     case "viewChallenges":
+                        viewChallenges();
+                        out.println(viewChallenges());
                         //call appropriate method
                     case "attemptChallenge":
                         //call appropriate method
@@ -69,7 +74,6 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-
     }
 
     public static String getPupil(String pupil_id) {
@@ -86,8 +90,26 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-
         return result;
+    }
+
+    public static String viewChallenges(){
+        try{
+        Connection conn = DriverManager.getConnection(DB_URL, username, password);
+
+        String sql = "SELECT ChallengeID, ChallengeName from Challenge WHERE Status = 'Valid'";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()){
+        String challengeID = rs.getString("ChallengeID");
+        String challengeName = rs.getString("ChallengeName");
+
+        String chal = (challengeID +"-"+ challengeName);
+        return chal;
+
+        }
+        }catch (SQLException e){};
     }
 
 }
