@@ -49,6 +49,7 @@ public class Main {
                         out.println(viewChallenges());
                         //call appropriate method
                     case "attemptChallenge":
+                        attemptChallenge();
                         //call appropriate method
                     case "viewApplicants":
                         //call appropriate method
@@ -108,12 +109,15 @@ public class Main {
         challengeID = rs.getString("ChallengeID");
         challengeName = rs.getString("ChallengeName");
 
-        
         }
          
         }catch (SQLException e){};
     chal = (challengeID +"-"+ challengeName);
          return chal;
+    }
+
+    public static void attemptChallenge(){
+        System.out.println("Are you sure you want to attempt this challenge" +req[1]+ "?(Y/N)");
     }
 
 }
