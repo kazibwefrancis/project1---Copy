@@ -49,7 +49,6 @@ public class Main {
                         out.println(viewChallenges());
                         //call appropriate method
                     case "attemptChallenge":
-                        attemptChallenge();
                         //call appropriate method
                     case "viewApplicants":
                         //call appropriate method
@@ -92,32 +91,6 @@ public class Main {
         }
 
         return result;
-    }
-
-    public static String viewChallenges(){
-        String chal=null;
-        String challengeID = null;
-        String challengeName = null;
-
-        try(Connection conn = DriverManager.getConnection(DB_URL, username, password);){
-        
-        String sql = "SELECT ChallengeID, ChallengeName from Challenge WHERE Status = 'Valid'";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-
-        while (rs.next()){
-        challengeID = rs.getString("ChallengeID");
-        challengeName = rs.getString("ChallengeName");
-
-        }
-         
-        }catch (SQLException e){};
-    chal = (challengeID +"-"+ challengeName);
-         return chal;
-    }
-
-    public static void attemptChallenge(){
-        System.out.println("Are you sure you want to attempt this challenge" +req[1]+ "?(Y/N)");
     }
 
 }
