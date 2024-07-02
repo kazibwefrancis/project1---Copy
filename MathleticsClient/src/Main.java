@@ -46,6 +46,7 @@ public class Main {
                 view_applicants to view applicants awaiting verification
                 confirm_applicant Y(y)/N(n) username to confirm applicants
                 getStudent student_id to retrieve a particular student
+                --------------------------------------------------------------------------------------------------------
                 """;
         System.out.println(instructionSet1);
     }

@@ -1,5 +1,14 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+
 public class Pupil {
-    private String participantId;
+    private int participantId;
     private String name;
     private String username;
     private String email;
@@ -9,8 +18,7 @@ public class Pupil {
     private String image;
 
     //constructor
-    public Pupil(String participantId, String name, String username, String email, String password, String date_of_birth, String schoolRegNo, String image) {
-        this.participantId = participantId;
+    public Pupil(String name, String username, String email, String password, String date_of_birth, String schoolRegNo, String image) {
         this.name = name;
         this.username = username;
         this.email = email;
@@ -20,7 +28,7 @@ public class Pupil {
         this.image = image;
     }
     //Setters
-    public void setParticipantId(String participantId) {
+    public void setParticipantId(int participantId) {
         this.participantId = participantId;
     }
 
@@ -53,7 +61,7 @@ public class Pupil {
     }
 
     //Getters
-    public String getParticipantId() {
+    public int getParticipantId() {
         return participantId;
     }
 
@@ -86,40 +94,98 @@ public class Pupil {
     }
 
     //Register new interested participant
-    public void register(Pupil pupil){
+    public static void register(Pupil pupil){
+        String name = pupil.getName();
+        String username = pupil.getUsername();
+        String email = pupil.getEmail();
+        String password = pupil.getPassword();
+        String dateOfBirth = pupil.getDate_of_birth();
+        String schoolRegNo = pupil.getSchoolRegNo();
+
+
+        String sql = "insert into participant(name,username,email,password,date_of_birth,school_reg_no) values(?,?,?,?,?,?)";
+
+        try(Connection con = Model.createConnection();) {
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, name);
+            st.setString(2, username);
+            st.setString(3, email);
+            st.setString(4, password);
+            st.setString(5, dateOfBirth);
+            st.setString(6, schoolRegNo);
+            st.executeUpdate();
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
 
     }
 
     //logs successfully registered participant into the system
     public void login(String username,String password){
-
+      String username1 = this.getUsername();
+        String password1 = this.getPassword();
     }
 
     //Allows login participant to view open challenges
-    public void viewChallenges(){
+    public static String viewChallenges(PrintWriter printWriter){
         String chal=null;
         String challengeID = null;
         String challengeName = null;
+        try(Connection conn = Model.createConnection();){
 
-        try(Connection conn = DriverManager.getConnection(DB_URL, username, password);){
-        
         String sql = "SELECT ChallengeID, ChallengeName from Challenge WHERE Status = 'Valid'";
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
-        
+
         while (rs.next()){
         challengeID = rs.getString("ChallengeID");
         challengeName = rs.getString("ChallengeName");
+        chal=challengeID +"-"+ challengeName;
+        printWriter.println(chal);
 
         }
-         
-        }catch (SQLException e){};
+
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        };
         chal = (challengeID +"-"+ challengeName);
          return chal;
     }
 
     //Allows user to attempt a challenge they are interested in
     public void attemptChallenge(){
+
+    }
+
+    //check if reg no supplied is in the database
+    public static boolean checkRegNo(Pupil pupil){
+        String regNo = pupil.getSchoolRegNo();
+        ArrayList<String> regNos = new ArrayList<>();
+
+        try(Connection con =Model.createConnection()){
+            String sql ="SELECT school_reg_no FROM School";
+
+            Statement st =con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                regNos.add(rs.getString("school_reg_no"));
+            }
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return regNos.contains(pupil.getSchoolRegNo());
+
+    }
+
+    //to add a pupil to a file
+    public static void addPupilToFile(Pupil pupil){
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("pupils.txt",true))) {
+            writer.write(pupil.getName() + "\n" + pupil.getUsername() + "\n" + pupil.getEmail() + "\n" + pupil.getPassword() + "\n" + pupil.getDate_of_birth() + "\n" + pupil.getSchoolRegNo() + "\n" + pupil.getImage() + "\n");
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
 
     }
 }
