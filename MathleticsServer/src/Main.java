@@ -9,12 +9,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
-    static final String DB_URL = "jdbc:mysql://localhost:3306/dummy_db";
-    static String username = "root";
-    static String password = "";
+    
     public static void main(String[] args) {
         ExecutorService executorService= Executors.newCachedThreadPool();
-        try(ServerSocket ss =new ServerSocket(8888)){
+        try(ServerSocket ss =new ServerSocket(2212)){
             System.out.println("Waiting for Client connection..");
             while(true) {
                 Socket soc = ss.accept();
