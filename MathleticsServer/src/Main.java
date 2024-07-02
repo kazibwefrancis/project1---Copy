@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
+    
     public static void main(String[] args) {
         ExecutorService executorService= Executors.newCachedThreadPool();
         try(ServerSocket ss =new ServerSocket(2212)){
@@ -42,6 +43,8 @@ public class Main {
                     case "login":
                         //call appropriate method
                     case "viewChallenges":
+                        viewChallenges();
+                        out.println(viewChallenges());
                         //call appropriate method
                     case "attemptChallenge":
                         //call appropriate method
@@ -69,7 +72,6 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-
     }
 
     public static String getPupil(String pupil_id) {
@@ -85,7 +87,6 @@ public class Main {
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
-
 
         return result;
     }

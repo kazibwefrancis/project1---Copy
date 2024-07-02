@@ -97,7 +97,25 @@ public class Pupil {
 
     //Allows login participant to view open challenges
     public void viewChallenges(){
+        String chal=null;
+        String challengeID = null;
+        String challengeName = null;
 
+        try(Connection conn = DriverManager.getConnection(DB_URL, username, password);){
+        
+        String sql = "SELECT ChallengeID, ChallengeName from Challenge WHERE Status = 'Valid'";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        
+        while (rs.next()){
+        challengeID = rs.getString("ChallengeID");
+        challengeName = rs.getString("ChallengeName");
+
+        }
+         
+        }catch (SQLException e){};
+        chal = (challengeID +"-"+ challengeName);
+         return chal;
     }
 
     //Allows user to attempt a challenge they are interested in
