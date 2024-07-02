@@ -69,9 +69,8 @@ public class Main {
 
                         //Commands available after login
                     case "viewChallenges":
-                        viewChallenges();
-                        out.println(viewChallenges());
-                        //call appropriate method
+                        Pupil.viewChallenges(out);
+
                     case "attemptChallenge":
                         //call appropriate method
                     case "viewApplicants":

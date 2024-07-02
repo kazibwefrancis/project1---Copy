@@ -1,5 +1,6 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -127,10 +128,10 @@ public class Pupil {
     }
 
     //Allows login participant to view open challenges
-    public void viewChallenges(){
-        String challengeID;
-        String challengeName;
-        String chall;
+    public static String viewChallenges(PrintWriter printWriter){
+        String chal=null;
+        String challengeID = null;
+        String challengeName = null;
         try(Connection conn = Model.createConnection();){
 
         String sql = "SELECT ChallengeID, ChallengeName from Challenge WHERE Status = 'Valid'";
@@ -140,10 +141,14 @@ public class Pupil {
         while (rs.next()){
         challengeID = rs.getString("ChallengeID");
         challengeName = rs.getString("ChallengeName");
+        chal=challengeID +"-"+ challengeName;
+        printWriter.println(chal);
 
         }
 
-        }catch (SQLException e){};
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        };
         chal = (challengeID +"-"+ challengeName);
          return chal;
     }
