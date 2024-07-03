@@ -1,9 +1,6 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -122,11 +119,33 @@ public class Pupil {
     }
 
     //logs successfully registered participant into the system
-    public void login(String username,String password){
-      String username1 = this.getUsername();
-        String password1 = this.getPassword();
-    }
-
+    public static void login(String[] req, PrintWriter out) {
+        if (req.length != 4) {
+            out.println("Missing parameters");
+            return;
+        }
+        String username = req[2];
+        String password = req[3];
+        switch (req[1]) {
+            case "p":
+                if (Model.checkPupilLogin(username, password)) {
+                    out.println("Login successful");
+                } else {
+                    out.println("Invalid username or password");
+                }
+                break;
+            case "sr":
+                if (Model.checkSRLogin(username, password)) {
+                    out.println("Login successful");
+                } else {
+                    out.println("Invalid username or password");
+                }
+                break;
+            default:
+                out.println("Invalid login type");
+                break;
+            }
+        }
     //Allows login participant to view open challenges
     public static String viewChallenges(PrintWriter printWriter){
         String chal=null;
