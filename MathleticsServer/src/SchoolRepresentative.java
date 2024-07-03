@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class SchoolRepresentative {
     private String name;
     private String username;
@@ -62,8 +66,17 @@ public class SchoolRepresentative {
     public void login(String username, String password){
 
     }
-    //school representative can view pending applicants
-    public void viewApplicants(String school_reg_no){
+    //school representative can view pending applicants int the java file for their school
+    public void viewApplicants(String filename){
+        try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        }catch(IOException e){
+                System.out.println(e.getMessage());
+            }
+
 
     }
     //school representative accepts or rejects applicant
