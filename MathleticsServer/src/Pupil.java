@@ -1,3 +1,4 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -173,21 +174,27 @@ public class Pupil {
     }
 
     //Allows user to attempt a challenge they are interested in
-    public static void attemptChallenge(PrintWriter printWriter){
+    public static void attemptChallenge(PrintWriter printWriter, BufferedReader br, String[] req){
+
         try(Connection conn = Model.createConnection();){
 
-            String sql = "SELECT QuestionText from Question ORDER BY RAND() LIMIT 1";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-    
-            while (rs.next()){
-                String qtn = rs.getString("QuestionText");
-                printWriter.println(qtn);         
-                } 
-    
-            }catch (SQLException e){
-                System.out.println(e.getMessage());
-            };
+        String sql = "SELECT ChallengeID from Challenge";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+            while(rs.next()){
+                String tempID = rs.getString("ChallengeID");
+                    if(req[1].equals(tempID)){
+                        Question.retrieveQuestion(printWriter, br);
+                    }
+                    else{
+                        String error = "ChallengeID not recognised";
+                        printWriter.println(error);
+                    }
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        };
     }
 
     //check if reg no supplied is in the database
