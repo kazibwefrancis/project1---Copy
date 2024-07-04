@@ -173,8 +173,21 @@ public class Pupil {
     }
 
     //Allows user to attempt a challenge they are interested in
-    public void attemptChallenge(P){
+    public static void attemptChallenge(PrintWriter printWriter){
+        try(Connection conn = Model.createConnection();){
 
+            String sql = "SELECT QuestionText from Question ORDER BY RAND() LIMIT 1";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+    
+            while (rs.next()){
+                String qtn = rs.getString("QuestionText");
+                printWriter.println(qtn);         
+                } 
+    
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+            };
     }
 
     //check if reg no supplied is in the database

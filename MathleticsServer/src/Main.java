@@ -74,7 +74,8 @@ public class Main {
                         Pupil.viewChallenges(out);
 
                     case "attemptChallenge":
-                        //call appropriate method
+                        Pupil.attemptChallenge(out);
+                        
                     case "viewApplicants":
                         //call appropriate method
                     case "confirmApplicant":
