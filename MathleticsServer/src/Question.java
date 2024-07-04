@@ -59,7 +59,7 @@ public class Question {
     public static void retrieveQuestion(PrintWriter printWriter, BufferedReader br){
         try(Connection conn = Model.createConnection();){
 
-            String sql = "SELECT QuestionText from Question ORDER BY RAND() LIMIT 1";
+            String sql = "SELECT QuestionText from Question ORDER BY RAND() LIMIT 10";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
     
