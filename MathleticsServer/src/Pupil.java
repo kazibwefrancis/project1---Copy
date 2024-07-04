@@ -173,7 +173,7 @@ public class Pupil {
     }
 
     //Allows user to attempt a challenge they are interested in
-    public void attemptChallenge(){
+    public void attemptChallenge(P){
 
     }
 
