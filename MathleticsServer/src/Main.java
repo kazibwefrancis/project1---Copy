@@ -63,9 +63,11 @@ public class Main {
                             }
                         } else
                             out.println("Missing parameters");
+                            break;
                     }
                     case "login":
-                        //call appropriate method
+                        Pupil.login(req, out);
+                        break;
 
                         //Commands available after login
                     case "viewChallenges":
