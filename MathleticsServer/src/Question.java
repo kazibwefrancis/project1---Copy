@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Question {
     private int question_no;
     private String question_text;
@@ -48,6 +50,12 @@ public class Question {
 
     //awards marks to a question depending on the answer supplied
     public static void awardMarks(int answer){
-
+        Random rand = new Random(10);
+        System.out.println(rand.toString());
     }
+
+//    public static void main(String[] args) {
+//        awardMarks(3);
+//    }
 }
+
