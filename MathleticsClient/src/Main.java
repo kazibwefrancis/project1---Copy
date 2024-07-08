@@ -7,27 +7,13 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Client started..");
+//        System.out.println("Client started..");
         try(Socket soc = new Socket("localhost",2212);){
             BufferedReader in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
             PrintWriter out = new PrintWriter(soc.getOutputStream(),true);
-            String request;
-            String response;
-            Scanner scanner = new Scanner(System.in);
-            showMenu();
-            do{
-                System.out.print("IES_MCS>>");
-                request = scanner.nextLine();
-                out.println(request);
-                if(request.equalsIgnoreCase("done")){
-                    break;
-                }
 
-                response=in.readLine();
-                System.out.println(response);
-            }while(!request.equalsIgnoreCase("done"));
-               
-        scanner.close();
+                runClient(out, in);
+
 
         }catch(IOException e){
             System.out.println(e.getMessage());
@@ -35,19 +21,45 @@ public class Main {
     
     }
 
+    public static void runClient(PrintWriter out, BufferedReader in) throws IOException {
+        String request;
+        String response;
+        Scanner scanner = new Scanner(System.in);
+        showMenu();
+        outer:do{
+            System.out.print("IES_MCS>>");
+            request = scanner.nextLine();
+            out.println(request);
+            if(request.equalsIgnoreCase("done")){
+                break;
+            }
+
+            do {
+                response = in.readLine();
+                System.out.println(response);
+                if(response.equals("logging out...")){
+                    break outer;
+                }
+
+            } while (!response.isEmpty());
+
+
+        }while(!request.equalsIgnoreCase("done"));
+        scanner.close();
+        runClient(out,in);
+    }
+
     public static void showMenu(){
         String instructionSet1= """
+                                            **WELCOME TO IES MATH CHALLENGE SYSTEM**
                 Available commands:
-                _______________________________________________________________________________________________________
-                register username firstname lastname email password DateOfBirth school_reg_no imageFile.png to register
-                login username password to log into the system
-                view_challenges to view available
-                attempt_challenge challenge_no to select a challenge to do
-                view_applicants to view applicants awaiting verification
-                confirm_applicant Y(y)/N(n) username to confirm applicants
-                getStudent student_id to retrieve a particular student
-                --------------------------------------------------------------------------------------------------------
+                _______________________________________________________________________________________________________________________
+                >register <username> <firstname> <lastname> <email> <password> <DateOfBirth> <school_reg_no> <imageFile.png> to register
+                >login <p>(pupil)/<sr>(school representative) <username> <password> to log into the system
+                >done to exit the system
+                -----------------------------------------------------------------------------------------------------------------------
                 """;
         System.out.println(instructionSet1);
+
     }
 }

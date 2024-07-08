@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -53,9 +54,9 @@ public class Question {
 
     //awards marks to a question depending on the answer supplied
     public static void awardMarks(int answer){
-
+        Random rand = new Random(10);
+        System.out.println(rand.toString());
     }
-
     public static void retrieveQuestion(PrintWriter printWriter, BufferedReader br){
         try(Connection conn = Model.createConnection();){
 
@@ -73,3 +74,4 @@ public class Question {
             };
     }
 }
+
