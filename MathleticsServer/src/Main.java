@@ -37,61 +37,20 @@ public class Main {
             while (true) {
                 String clientRequest = in.readLine();
                 System.out.println("Server received: " + clientRequest + " command");
-                String[] req = clientRequest.split(" ");
-                int len=req.length;
+                String[] req = clientRequest.trim().split(" ");
+
                 switch(req[0]){
-                    case "register": {
-                        if (len==9) {
-                            String username = req[1];
-                            String name = req[2] + req[3];
-                            String email = req[4];
-                            String password = req[5];
-                            String dateOfBirth = req[6];
-                            String schoolRegNo = req[7];
-                            String imageFile = req[8];
-
-                            Pupil pupil = new Pupil(name, username, email, password, dateOfBirth, schoolRegNo, imageFile);
-
-                            //check if regno is valid
-                            boolean regNoValid = Pupil.checkRegNo(pupil);
-                            if (!regNoValid) {
-                                out.println("Invalid school registration number");
-                            } else {
-                                Pupil.addPupilToFile(pupil);
-                                out.println("Successfully added to file,an email will be sent when you are confirmed by your school representative");
-                                return;
-                            }
-                        } else
-                            out.println("Missing parameters");
-                            break;
-                    }
-                    case "login":
-                        Pupil.login(req, out);
+                    case "register":
+                        Pupil.register(req, out);
                         break;
-
-                        //Commands available after login
-                    case "viewChallenges":
-                        Pupil.viewChallenges(out);
-
-                    case "attemptChallenge":
-                        //call appropriate method
-                    case "viewApplicants":
-                        //call appropriate method
-                    case "confirmApplicant":
-                        //call appropriate method
-                    case "getStudent":
-                        if(req.length==2){
-                            String serverResponse = Arrays.deepToString(getPupil(clientRequest));
-                            out.println(serverResponse);
-                        }else
-                            out.println("Missing parameters");
-
-                    case "done":
+                    case "login":
+                        Pupil.login(req,out,in);
                         break;
                     default:
-                        String response = "Command not recognized";
-                        System.out.println(response);
-                        out.println(response);
+                        System.out.println("Command not recognized");
+                        out.println("Command not recognized");
+                        out.println();
+                        break;
                 }
 
             }
