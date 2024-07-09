@@ -63,10 +63,47 @@ public class Question {
             String sql = "SELECT QuestionText from Question ORDER BY RAND() LIMIT 10";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
+
+            Statement pstmt = conn.createStatement();
+            ResultSet rst = ptsmt.executeQuery("SELECT Duration from Challenge WHERE ChallengeID = 'CH01'");
+
+            LocalTime startTime = LocalTime.now();
     
             while (rs.next()){
-                String qtn = rs.getString("QuestionText");
-                printWriter.println(qtn);         
+                String[] row = new String[rs.getMetaData().getColumnCount()];
+                       for(int j=0;j<9;j++){
+                        LocalTime rightNow = LocalTime.now();
+                        Duration timeElapsed = Duration.between(startTime, rightNow);
+                        int minutes = 2;//rst.getInt("Duration");
+
+                        Duration timeLimit = Duration.ofMinutes(minutes);
+
+                        if (timeElapsed.compareTo(timeLimit) > 0) {
+                            printWriter.println("TIME UP, THANK YOU FOR ATTEMPTING THIS CHALLENGE");
+                            break;
+                        }
+                        Duration timeRemaining = timeLimit.minus(timeElapsed);
+                        String jep = ("Time left: " + timeRemaining.toMinutes() + ":" + timeRemaining.toSecondsPart() +":" +timeRemaining.toMillisPart());
+                        printWriter.println(jep);
+                        int count = 10-j;
+                        printWriter.println("Questions left: " +count);
+
+                        if(count ==2){
+                            printWriter.println("THANKYOU FOR ATTEMPTING THIS CHALLENGE");
+                            break;
+                        }
+
+                        for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                            row[i - 1] = rs.getString(i);
+                            printWriter.println(row[i - 1]);
+                            String ans = br.readLine();
+
+                            if(i>=9){
+                                printWriter.println("THANKYOU FOR ATTEMPTING THIS CHALLENGE");
+                                break;
+                            }
+                        }
+                    }
                 } 
     
             }catch (SQLException e){
