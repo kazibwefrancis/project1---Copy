@@ -44,7 +44,7 @@ public class Main {
                         Pupil.register(req, out);
                         break;
                     case "login":
-                        Pupil.login(req,out,in);
+                        Authenticator.login(req,out,in);
                         break;
                     default:
                         System.out.println("Command not recognized");
@@ -58,30 +58,6 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-    }
-
-    public static String[][] getPupil(String pupil_id) {
-        String sql = "select * from pupil";
-        ResultSet pupils=null;
-        String[][] result=new String[10][3];
-
-        try(Connection con = Model.createConnection();){
-            Statement st= con.createStatement();
-            pupils = st.executeQuery(sql);
-
-//            result=pupils.getString(1);
-            int i=0;
-            while(pupils.next()){
-                result[i][0]=pupils.getString("pupil_id");
-                result[i][1]=pupils.getString("username");
-                result[i][2]=pupils.getString("email");
-            }
-            System.out.println(Arrays.deepToString(result));
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        return result;
     }
 
 }

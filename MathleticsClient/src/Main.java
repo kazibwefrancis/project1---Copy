@@ -50,7 +50,7 @@ public class Main {
     }
 
     public static void showMenu(){
-        String instructionSet1= """
+        String instructionSet= """
                                             **WELCOME TO IES MATH CHALLENGE SYSTEM**
                 Available commands:
                 _______________________________________________________________________________________________________________________
@@ -59,7 +59,7 @@ public class Main {
                 >done to exit the system
                 -----------------------------------------------------------------------------------------------------------------------
                 """;
-        System.out.println(instructionSet1);
+        System.out.println(instructionSet);
 
     }
 }

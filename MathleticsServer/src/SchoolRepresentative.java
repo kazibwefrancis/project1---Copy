@@ -73,7 +73,9 @@ public class SchoolRepresentative {
         try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
 
+
             while ((line = br.readLine()) != null) {
+                //out.println("Applicant 1");
                 out.println(line);
             }
 //            out.println();
@@ -99,8 +101,8 @@ public class SchoolRepresentative {
                     Model.updatePupil(pupil);
                     Pupil.deleteFromFile(username);
                     out.println("You have confirmed " + pupil.getName());
-
                     //send email to pupil
+
                 } else if (accept.equals("n")) {
                     Model.updateRejected(pupil);
                     Pupil.deleteFromFile(username);
