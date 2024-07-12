@@ -7,17 +7,20 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class EmailSender {
-
-    //send email to school representative after a pupil has registered
-    public static void notifySchoolRep(String schoolRegNo,String sender,String name){
-        String recipient = Model.getSchoolRepEmail(schoolRegNo);
-
-        Properties properties = System.getProperties();
+    static String sender = "jimisaac8082@gmail.com";
+    static Properties properties = System.getProperties();
+    static {
         properties.put("mail.smtp.auth",true);
         properties.put("mail.smtp.starttls.enable",true);
         properties.put("mail.smtp.host","smtp.gmail.com");
         properties.put("mail.smtp.port","587");
         properties.put("mail.smtp.ssl.protocols","TLSv1.2");
+    }
+
+    //send email to school representative after a pupil has registered
+    public static void notifySchoolRep(String schoolRegNo,String pupilName){
+        String recipient = Model.getSchoolRepEmail(schoolRegNo);
+
 
         Session session = Session.getInstance(properties,new javax.mail.Authenticator(){
             protected PasswordAuthentication getPasswordAuthentication(){
@@ -29,7 +32,7 @@ public class EmailSender {
             message.setFrom(new InternetAddress(sender));
             message.addRecipient(MimeMessage.RecipientType.TO,new InternetAddress(recipient));
             message.setSubject("New Pupil Registration");
-            message.setText("A new pupil by the name "+name+" has registered in your school,,log into the system to confirm their registration");
+            message.setText("A new pupil by the name "+pupilName+" has registered in your school,,log into the system to confirm their registration");
             Transport.send(message);
             System.out.println("email sent successfully...");
     }catch(Exception e){
@@ -39,13 +42,6 @@ public class EmailSender {
 
     //send email to pupil after their registration has been confirmed
     public static void notifyPupil(String recipient){
-        String sender = "jimisaac8082@gmail.com";
-        Properties properties = System.getProperties();
-        properties.put("mail.smtp.auth",true);
-        properties.put("mail.smtp.starttls.enable",true);
-        properties.put("mail.smtp.host","smtp.gmail.com");
-        properties.put("mail.smtp.port","587");
-        properties.put("mail.smtp.ssl.protocols","TLSv1.2");
 
         Session session = Session.getInstance(properties,new javax.mail.Authenticator(){
             protected PasswordAuthentication getPasswordAuthentication(){
@@ -66,7 +62,9 @@ public class EmailSender {
 
     }
 
-    public static void main(String[] args) {
-        notifyPupil("jimisaac8082@gmail.com");
-    }
+//    public static void main(String[] args) {
+//        notifyPupil("theetribalchief14@gmail.com");
+//    }
+
 }
+

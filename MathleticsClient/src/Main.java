@@ -43,10 +43,10 @@ public class Main {
 
             } while (!response.isEmpty());
 
-
         }while(!request.equalsIgnoreCase("done"));
-        scanner.close();
         runClient(out,in);
+        scanner.close();
+
     }
 
     public static void showMenu(){

@@ -3,6 +3,7 @@ import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Pupil {
@@ -147,29 +148,67 @@ public class Pupil {
     }
 
     //Allows user to attempt a challenge they are interested in
-    public static void attemptChallenge(PrintWriter printWriter, BufferedReader br, String[] req){
+    public static void attemptChallenge(PrintWriter printWriter, BufferedReader br, String[] req,String username){
+        String challengeNumber=req[1];
+        int participantId = Model.getPupilId(username);
+
+        //check if participant has already attempted the challenge
+        if(Model.checkChallengeAttempt(participantId,Integer.parseInt(challengeNumber))){
+            printWriter.println("You have already attempted this challenge");
+            return;
+        }
+
+        LocalDateTime startTime;
+        int score;
+        LocalDateTime endTime;
+        int redos=0;
 
         try(Connection conn = Model.createConnection();){
 
-        String sql = "SELECT challenge_no from challenge";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
+        String sql = "SELECT 1 from challenge where challenge_no = ? ";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1,req[1]);
+        ResultSet rs = stmt.executeQuery();
 
-            while(rs.next()){
-                String tempID = rs.getString("challenge_no");
-                //System.out.println(tempID);
-                    if(req[1].equals(tempID)){
-                        printWriter.println("retrieving questions");
-                        Question.retrieveQuestion(printWriter, br);
+            if(rs.isBeforeFirst()){
+                while(true) {
+                    printWriter.println("retrieving questions...");
+                    startTime = LocalDateTime.now();
+                    score = Question.retrieveQuestion(printWriter, br, Integer.parseInt(challengeNumber), participantId, startTime);
+                    endTime = LocalDateTime.now();
+                    printWriter.println("Attempt complete");
+                    printWriter.println("Total Marks:" + score);
+                    printWriter.println("_______________");
+
+                    //update the attempted challenge table
+                    Model.recordChallenge(Integer.parseInt(challengeNumber), participantId, startTime, endTime, score);
+
+                    //allow the pupil two more redos after the first attempt
+                    if(redos<2) {
+                        printWriter.println("Would you like to try again? Y/N");
+                        printWriter.println();
+                        String redo = br.readLine();
+                        if (redo.equalsIgnoreCase("Y")) {
+                            redos++;
+                        } else {
+                            printWriter.println("Challenge completed");
+                            break;
+                        }
+                    }else {
+                        printWriter.println("You have exhausted your redos");
+                        //printWriter.println();
                         break;
                     }
+                }
+
+            }else{
+                printWriter.println("Challenge not found");
             }
         }catch (SQLException e){
             System.out.println(e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        ;
     }
 
     //check if reg no supplied is in the database
@@ -184,15 +223,15 @@ public class Pupil {
             System.out.println(e.getMessage());
         }
         //notify school representative
-        //EmailSender.notifySchoolRep(pupil.getSchoolRegNo(),pupil.getEmail(),pupil.getName());
+        EmailSender.notifySchoolRep(pupil.getSchoolRegNo(),pupil.getName());
 
     }
     //put all applicants into an arraylist
-    public static ArrayList<Pupil> addToArrayList(String username){
+    public static ArrayList<Pupil> addToArrayList(){
         ArrayList<Pupil> applicants = new ArrayList<>();
-        String school = "applicants";
-        String filename = school + ".txt";
-        try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
+//        String school = "applicants";
+//        String filename = school + ".txt";
+        try(BufferedReader br = new BufferedReader(new FileReader("applicants.txt"))) {
             String line;
 
             while ((line = br.readLine()) != null){
@@ -216,10 +255,10 @@ public class Pupil {
 
     //to delete a pupil from the file after being confirmed or rejected
     public static void deleteFromFile(String username){
-        ArrayList<Pupil> applicants = addToArrayList(username);
-        String school = "applicants";
-        String filename = school + ".txt";
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(filename));) {
+        ArrayList<Pupil> applicants = addToArrayList();
+//        String school = "applicants";
+//        String filename = school + ".txt";
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter("applicants.txt"));) {
             for (Pupil pupil : applicants) {
                 if (!pupil.getUsername().equals(username)) {
                     bw.write(pupil.getName() + " " + pupil.getUsername() + " " + pupil.getEmail() + " " + pupil.getPassword() + " " + pupil.getDate_of_birth() + " " + pupil.getSchoolRegNo() + " " + pupil.getImageFilePath() + "\n");
