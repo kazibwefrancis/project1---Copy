@@ -67,25 +67,39 @@ public class SchoolRepresentative {
 
     }
     //school representative can view pending applicants int the java file for their school
-    public static void viewApplicants(String schoolName, PrintWriter out){
+    public static void viewApplicants(String username, PrintWriter out){
+        ArrayList<Pupil> applicants = Pupil.addToArrayList();
+        String school_reg_no = Model.getSchoolRegNo(username);
 
-        String filename = schoolName + ".txt";
-        try(BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
+        //check if there is a pupil in the arraylist whose school_reg_no is equal to the school_representative's school_reg_no
+        boolean found = false;
+        for (Pupil pupil : applicants) {
+            if (pupil.getSchoolRegNo().equals(school_reg_no)) {
+                found = true;
+                break;
+            }
+        }
+        //display only pupils from a particular school representative
+        int i=1;
+        out.println("Applicants for your school:");
+        if (!found) {
+            out.println("No pending applicants for your school");
+        }else {
+            for (Pupil pupil : applicants) {
+                if (pupil.getSchoolRegNo().equals(school_reg_no)) {
+                    out.println(i + ". " + pupil.getName() + " " + pupil.getUsername());
+                    i++;
+                }
+            }
+        }
 
-            while ((line = br.readLine()) != null) {
-                out.println(line);
-            }
-//            out.println();
-        }catch(IOException e){
-                System.out.println(e.getMessage());
-            }
+
     }
 
 
     //school representative accepts or rejects applicant
     public static void confirmApplicant(String username, String accept,PrintWriter out) {
-        ArrayList<Pupil> applicants = Pupil.addToArrayList("applicants");
+        ArrayList<Pupil> applicants = Pupil.addToArrayList();
        // System.out.println(applicants);
         boolean found = false;
 
@@ -101,6 +115,8 @@ public class SchoolRepresentative {
                     out.println("You have confirmed " + pupil.getName());
 
                     //send email to pupil
+                    EmailSender.notifyPupil(pupil.getEmail());
+
                 } else if (accept.equals("n")) {
                     Model.updateRejected(pupil);
                     Pupil.deleteFromFile(username);
@@ -117,12 +133,4 @@ public class SchoolRepresentative {
         }
     }
 
-    //public static void main(String[] args) {
-    //    System.out.println("Hello didi");
-   // }
-    //Test (dont run)
-   // public static void main(String[] args) {
-     //   ArrayList<Pupil> applicants = viewApplicants(new SchoolRepresentative("John Doe", "johndoe", "john.com", "password", "U001"), new PrintWriter(System.out));
-     //   confirmApplicant("asasira", "y", applicants);
-   // }
 }
