@@ -8,15 +8,13 @@
 
 <center> 
     <h1>
-    INTERNATIONAL EDUCATIONAL SERVICES 
+    
    </h1>
 </center>
 <center> 
     
     <h3> 
-     Matheletics
-                 2024
-                
+     
    </h3>
 </center>
     <div class="content">
