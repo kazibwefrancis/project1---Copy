@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
    class SchoolController extends Controller
    {
+
+    
        public function create()
        {
            return view('uploadschools');
@@ -29,6 +31,8 @@ use Illuminate\Http\Request;
                'representative_email' => $request->representative_email,
                'representative_name' => $request->representative_name,
            ]);
+
+           
 
            return back()->with('success', 'School details uploaded successfully!');
        }

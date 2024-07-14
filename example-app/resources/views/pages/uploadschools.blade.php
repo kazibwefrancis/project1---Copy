@@ -62,6 +62,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
+        
     </div>
 
     <!-- Include Bootstrap JS and dependencies -->

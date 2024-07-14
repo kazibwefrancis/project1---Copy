@@ -1,7 +1,7 @@
 @extends('layouts.app', ['activePage' => 'register', 'title' => 'Light Bootstrap Dashboard Laravel by Creative Tim & UPDIVISION'])
 
 @section('content')
-    <div class="full-page register-page section-image" data-color="orange" data-image="{{ asset('light-bootstrap/img/download.jpeg') }}">
+    <div class="full-page register-page section-image"  data-image="{{ asset('light-bootstrap/img/download.jpeg') }}">
         <div class="content">
             <div class="container">
                 <div class="card card-register card-plain text-center">
