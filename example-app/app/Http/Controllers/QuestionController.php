@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\QuestionImport;
 use Illuminate\Http\Request;
 use App\Models\Question;
+use Maatwebsite\Excel\Excel;
 
 class QuestionController extends Controller
 {
@@ -21,7 +23,8 @@ class QuestionController extends Controller
         $file = $request->file('question_file');
 
         // Logic to handle file upload and processing (e.g., saving to database) goes here
+        \Maatwebsite\Excel\Facades\Excel::import(new QuestionImport, $file);
 
-        return back()->with('success', 'Questions uploaded successfully!');
+        return redirect()-> back()->with('success', 'Questions uploaded successfully!');
     }
 }
