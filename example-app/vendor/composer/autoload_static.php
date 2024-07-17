@@ -628,6 +628,7 @@ class ComposerStaticInit65e85f9f959c0b087110331754d451cf
         'App\\Http\\Requests\\PasswordRequest' => __DIR__ . '/../..' . '/app/Http/Requests/PasswordRequest.php',
         'App\\Http\\Requests\\ProfileRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ProfileRequest.php',
         'App\\Http\\Requests\\UserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UserRequest.php',
+        'App\\Imports\\QuestionImport' => __DIR__ . '/../..' . '/app/Imports/QuestionImport.php',
         'App\\Models\\Answer' => __DIR__ . '/../..' . '/app/Models/Answer.php',
         'App\\Models\\Challenge' => __DIR__ . '/../..' . '/app/Models/Challenge.php',
         'App\\Models\\Question' => __DIR__ . '/../..' . '/app/Models/Question.php',

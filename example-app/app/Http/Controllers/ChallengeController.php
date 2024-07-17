@@ -16,6 +16,7 @@ class ChallengeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'challenge_name' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'challenge_duration' => 'required|integer|min:1',
@@ -23,6 +24,7 @@ class ChallengeController extends Controller
         ]);
 
         Challenge::create([
+            'challenge_name' => $request->challenge_name,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'challenge_duration' => $request->challenge_duration,

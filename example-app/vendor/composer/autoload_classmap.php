@@ -35,6 +35,7 @@ return array(
     'App\\Http\\Requests\\PasswordRequest' => $baseDir . '/app/Http/Requests/PasswordRequest.php',
     'App\\Http\\Requests\\ProfileRequest' => $baseDir . '/app/Http/Requests/ProfileRequest.php',
     'App\\Http\\Requests\\UserRequest' => $baseDir . '/app/Http/Requests/UserRequest.php',
+    'App\\Imports\\QuestionImport' => $baseDir . '/app/Imports/QuestionImport.php',
     'App\\Models\\Answer' => $baseDir . '/app/Models/Answer.php',
     'App\\Models\\Challenge' => $baseDir . '/app/Models/Challenge.php',
     'App\\Models\\Question' => $baseDir . '/app/Models/Question.php',

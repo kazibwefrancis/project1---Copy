@@ -11,6 +11,7 @@ class Challenge extends Model
     use HasFactory;
 
     protected $fillable = [
+        'challenge_name',
         'start_date',
         'end_date',
         'challenge_duration',
