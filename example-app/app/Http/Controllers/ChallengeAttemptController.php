@@ -19,4 +19,6 @@ class ChallengeAttemptController extends Controller
         $attempt = ChallengeAttempt::findOrFail($id);
         return view('challenge_attempts.show', compact('attempt'));
     }
+
 }
+
