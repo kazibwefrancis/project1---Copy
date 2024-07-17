@@ -10,8 +10,9 @@ use Illuminate\Database\Migrations\Migration;
        {
            Schema::create('answers', function (Blueprint $table) {
                $table->id();
-               $table->foreignId('question_id')->constrained()->onDelete('cascade');
-               $table->string('answer_text');
+            //    $table->foreignId('question_id')->constrained()->onDelete('cascade');
+               $table->string('ANS NO');
+               $table->string('ANS TEXT');
                $table->timestamps();
            });
        }
