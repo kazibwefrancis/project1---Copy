@@ -62,3 +62,14 @@ use App\Http\Controllers\AnswerController;
 Route::get('/uploadanswers', [AnswerController::class, 'create'])->name('answers.create');
 Route::post('/uploadanswers', [AnswerController::class, 'store'])->name('answers.store');
 
+// routes/web.php
+use App\Http\Controllers\ChallengeAttemptController;
+
+Route::get('/challenge-attempts', [ChallengeAttemptController::class, 'index'])->name('challenge-attempts.index');
+Route::get('/challenge-attempts/{id}', [ChallengeAttemptController::class, 'show'])->name('challenge-attempts.show');
+
+// routes/web.php
+use App\Http\Controllers\ParticipantController;
+
+Route::get('/participants', [ParticipantController::class, 'index'])->name('participants.index');
+Route::get('/participants/{id}', [ParticipantController::class, 'show'])->name('participants.show');
