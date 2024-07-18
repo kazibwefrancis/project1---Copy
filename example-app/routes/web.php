@@ -35,30 +35,43 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
 });
 
- // routes/web.php
+
  use App\Http\Controllers\SchoolController;
 
  Route::get('/uploadschools', [SchoolController::class, 'create'])->name('schools.create');
  Route::post('/uploadschools', [SchoolController::class, 'store'])->name('schools.store');
  
 
- // routes/web.php
 use App\Http\Controllers\ChallengeController;
 
 Route::get('/setChallengeParameters', [ChallengeController::class, 'create'])->name('challenges.create');
 Route::post('/setChallengeParameters', [ChallengeController::class, 'store'])->name('challenges.store');
 
 
-// routes/web.php
 use App\Http\Controllers\QuestionController;
 
 Route::get('/uploadquestions', [QuestionController::class, 'create'])->name('questions.create');
 Route::post('/uploadquestions', [QuestionController::class, 'store'])->name('questions.store');
 
 
-// routes/web.php
 use App\Http\Controllers\AnswerController;
 
 Route::get('/uploadanswers', [AnswerController::class, 'create'])->name('answers.create');
 Route::post('/uploadanswers', [AnswerController::class, 'store'])->name('answers.store');
 
+
+use App\Http\Controllers\ChallengeAttemptController;
+
+Route::get('/challenge-attempts', [ChallengeAttemptController::class, 'index'])->name('challenge-attempts.index');
+Route::get('/challenge-attempts/{id}', [ChallengeAttemptController::class, 'show'])->name('challenge-attempts.show');
+
+
+use App\Http\Controllers\ParticipantController;
+
+Route::get('/participants', [ParticipantController::class, 'index'])->name('participants.index');
+Route::get('/participants/{id}', [ParticipantController::class, 'show'])->name('participants.show');
+
+
+use App\Http\Controllers\AnalyticsController;
+
+Route::get('/analytics', [AnalyticsController::class, 'showAnalytics'])->name('analytics.index');

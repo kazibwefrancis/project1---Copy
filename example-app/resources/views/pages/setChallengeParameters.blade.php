@@ -35,6 +35,13 @@
         <form action="{{ route('challenges.store') }}" method="POST" class="needs-validation" novalidate>
             @csrf
             <div class="form-group">
+                <label for="challenge_name">Challenge Name:</label>
+                <input type="text" name="challenge_name" id="challenge_name" class="form-control" required>
+                <div class="invalid-feedback">
+                    Please enter the challenge name.
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="start_date">Start Date:</label>
                 <input type="datetime-local" name="start_date" id="start_date" class="form-control" required>
                 <div class="invalid-feedback">
