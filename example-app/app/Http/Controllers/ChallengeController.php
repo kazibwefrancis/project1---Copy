@@ -33,8 +33,10 @@ class ChallengeController extends Controller
             'challenge_duration' => $request->duration,
             'number_of_questions' => $request->number_of_questions,
         ]);
-        //get the challenge_no of the challenge created from the model
-        $challenge_no = Challenge::where('challenge_name', $request->challenge_name)->first()->challenge_no;
+        //get the challenge id of the challenge created from the model
+
+
+        $challenge_no = Challenge::where('challenge_name', $request->challenge_name)->first()->id;
 
         $this->uploadFiles($request, $challenge_no);
         return back()->with('success', 'Update successful!');
@@ -51,7 +53,7 @@ class ChallengeController extends Controller
             Excel::import(new QuestionImport($challenge_no), request()->file('question_file'));
             Excel::import(new AnswerImport, request()->file('answer_file'));
 
-            return back()->with('success', 'Files uploaded successfully.');
+            return back()->with('success', 'Files uploaded successful.');
         }
 
         return back()->with('error', 'Please upload both files.');
