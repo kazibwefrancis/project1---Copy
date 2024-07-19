@@ -2,26 +2,28 @@
 
 namespace App\Imports;
 
-use App\Models\Question;
-use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\ToCollection;
+use App\Models\Question; // Adjust the namespace according to your actual model
+use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class QuestionImport implements ToCollection, WithHeadingRow
+class QuestionImport implements ToModel, WithHeadingRow
 {
-    /**
-    * @param Collection $collection
-    */
-    public function collection(Collection $rows)
+    use Importable;
+
+    protected $challenge_no;
+
+    public function __construct($challenge_no)
     {
-        foreach ($rows as $row) 
-        {
-            Question::create([
-               
-                'question_no'=>$row['question_no'],
-                'question_text'=>$row['question_text'],
-            ]);
-        }
+        $this->challenge_no = $challenge_no;
+    }
+
+    public function model(array $row)
+    {
+        return new Question([
+            'id' => $row['no'],
+            'question_text' => $row['question'],
+            'challenge_no' => $this->challenge_no,
+        ]);
     }
 }

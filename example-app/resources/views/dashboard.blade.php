@@ -1,3 +1,4 @@
+
 @extends('layouts.app', ['activePage' => 'dashboard', 'title' => 'Matheletics Challenge', 'navName' => 'Dashboard', 'activeButton' => 'laravel'])
 
 @section('content')
@@ -68,11 +69,11 @@
     <div class="overview">
         <div class="metric">
             <h3>Most Correctly Answered Questions</h3>
-            <p id="correct-questions">{{ $data['questions']->count() }}</p> <!-- Laravel: Display count of correctly answered questions -->
+            <p id="correct-questions">{{ $data['title']}}</p> <!-- Laravel: Display count of correctly answered questions -->
         </div>
         <div class="metric">
             <h3>Top Schools</h3>
-            <p id="school-rankings">{{ $data['schools']->count() }}</p> <!-- Laravel: Display count of top schools -->
+            <p id="school-rankings">{{ $data['description'] }}</p> <!-- Laravel: Display count of top schools -->
         </div>
     </div>
 
@@ -92,12 +93,12 @@
             </thead>
             <tbody>
                 <!-- Laravel: Loop through worst performing schools and display each -->
-                @foreach($data['worstSchools'] as $school)
-                    <tr>
-                        <td>{{ $school->name }}</td>
-                        <td>{{ $school->score }}</td>
-                    </tr>
-                @endforeach
+{{--                @foreach($data['description'] as $school)--}}
+{{--                    <tr>--}}
+{{--                        <td>{{ $school->name }}</td>--}}
+{{--                        <td>{{ $school->score }}</td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
             </tbody>
         </table>
 
@@ -111,12 +112,12 @@
             </thead>
             <tbody>
                 <!-- Laravel: Loop through best performing schools and display each -->
-                @foreach($data['bestSchools'] as $school)
-                    <tr>
-                        <td>{{ $school->name }}</td>
-                        <td>{{ $school->score }}</td>
-                    </tr>
-                @endforeach
+{{--                @foreach($data['description'] as $school)--}}
+{{--                    <tr>--}}
+{{--                        <td>{{ $school->name }}</td>--}}
+{{--                        <td>{{ $school->score }}</td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
             </tbody>
         </table>
 
@@ -130,12 +131,12 @@
             </thead>
             <tbody>
                 <!-- Laravel: Loop through participants with incomplete challenges and display each -->
-                @foreach($data['incompleteChallenges'] as $participant)
-                    <tr>
-                        <td>{{ $participant->name }}</td>
-                        <td>{{ $participant->challenges }}</td>
-                    </tr>
-                @endforeach
+{{--                @foreach($data['description'] as $participant)--}}
+{{--                    <tr>--}}
+{{--                        <td>{{ $participant->name }}</td>--}}
+{{--                        <td>{{ $participant->challenges }}</td>--}}
+{{--                    </tr>--}}
+{{--                @endforeach--}}
             </tbody>
         </table>
     </div>
@@ -143,14 +144,14 @@
     <div class="filters">
         <label for="date-filter">Date:</label>
         <input type="date" id="date-filter" name="date-filter">
-        
+
         <label for="category-filter">Category:</label>
         <select id="category-filter" name="category-filter">
             <option value="all">All</option>
             <option value="category1">Category 1</option>
             <option value="category2">Category 2</option>
         </select>
-        
+
         <button id="apply-filters">Apply Filters</button>
     </div>
 
@@ -172,13 +173,13 @@
             options: {
                 responsive: true,
                 scales: {
-                    x: { 
+                    x: {
                         type: 'time',
                         time: {
                             unit: 'year'
                         }
                     },
-                    y: { 
+                    y: {
                         beginAtZero: true
                     }
                 }
@@ -201,7 +202,7 @@
             options: {
                 responsive: true,
                 scales: {
-                    y: { 
+                    y: {
                         beginAtZero: true
                     }
                 }
