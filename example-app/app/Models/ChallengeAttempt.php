@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use App\Models\Participant;
 
 class ChallengeAttempt extends Model
 {
@@ -13,6 +15,8 @@ class ChallengeAttempt extends Model
         'participant_id',
         'challenge_no',
         'score',
+        'start_time',
+        'end_time',
     ];
 
     public function participant()
@@ -22,35 +26,35 @@ class ChallengeAttempt extends Model
 
     public static function getTopTwoStudentsPerChallenge()
     {
-        $results = ChallengeAttempt::groupBy('challenge_no', 'participant_id')
-            ->selectRaw('challenge_no, participant_id, score')
-            ->orderByDesc('score')
+        // Retrieve top two students per challenge
+        $topStudents = DB::table('ChallengeAttempt')
+            ->select('challenges.challenge_no', 'participant.name', 'participant.school_reg_no', 'ChallengeAttempt.score')
+            ->join('participant', 'ChallengeAttempt.participant_id', '=', 'participant.id')
+            ->join('challenges', 'ChallengeAttempt.challenge_no', '=', 'challenges.id')
+            ->orderBy('challenges.id')
+            ->orderByDesc('ChallengeAttempt.score')
+            ->groupBy('challenges.id', 'participant.id')
             ->get();
 
-        // Array to store top two students per challenge
-        $topStudents = [];
+        // Prepare formatted data for top students per challenge
+        $formattedTopStudents = [];
 
-        // Iterate through grouped results and get top two students per challenge
-        foreach ($results as $result) {
-            $challengeNo = $result->challenge_no;
+        foreach ($topStudents as $student) {
+            $challengeNo = $student->challenge_no;
 
-            if (!isset($topStudents[$challengeNo])) {
-                $topStudents[$challengeNo] = [];
+            if (!isset($formattedTopStudents[$challengeNo])) {
+                $formattedTopStudents[$challengeNo] = [];
             }
 
-            if (count($topStudents[$challengeNo]) < 2) {
-                // Get participant details (e.g., name, school) and add to top students array
-                $participant = Participant::find($result->participant_id);
-                if ($participant) {
-                    $topStudents[$challengeNo][] = [
-                        'participant_id' => $result->participant_id,
-                        'name' => $result->name,
-                        'score' => $result->score,
-                    ];
-                }
+            if (count($formattedTopStudents[$challengeNo]) < 2) {
+                $formattedTopStudents[$challengeNo][] = [
+                    'name' => $student->name,
+                    'school' => $student->school_reg_no,
+                    'score' => $student->score,
+                ];
             }
         }
 
-        return $topStudents;
+        return $formattedTopStudents;
     }
 }

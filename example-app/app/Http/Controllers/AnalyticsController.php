@@ -8,13 +8,10 @@ use Illuminate\Http\Request;
 
 class AnalyticsController extends Controller
 {
-
     public function showAnalytics()
     {
-        // Retrieve top two students per challenge
         $topStudents = ChallengeAttempt::getTopTwoStudentsPerChallenge();
 
-        return view('analytics', compact('topStudents'));
+        return view('pages.analytics', compact($topStudents));
     }
-
 }

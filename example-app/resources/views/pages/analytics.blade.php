@@ -1,28 +1,38 @@
-@extends('layouts.app')
-
-@section('content')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+</head>
+<body>
     <div class="container">
-        <h1>Analytics Dashboard</h1>
+        <h2>Analytics Dashboard</h2>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        Top Performing Participants
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-group">
-                            @foreach ($topStudents as $topStudent)
+        @if (!empty($topStudents))
+            <div class="card">
+                <div class="card-header">
+                    Top Performing Participants
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        @foreach ($topStudents as $challengeNo => $students)
+                            @foreach ($students as $student)
                                 <li class="list-group-item">
-                                    <strong>Name:</strong> {{ $topStudent['name'] }} <br>
-                                    <strong>School:</strong> {{ $topStudent['school'] }} <br>
-                                    <strong>Score:</strong> {{ $topStudent['score'] }} <br>
+                                    <strong>Name:</strong> {{ $student['name'] }} <br>
+                                    <strong>School:</strong> {{ $student['school'] }} <br>
+                                    <strong>Score:</strong> {{ $student['score'] }} <br>
                                 </li>
                             @endforeach
-                        </ul>
-                    </div>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
-        </div>
-    </div>
-@endsection
+        @else
+            <div class="alert alert-warning" role="alert">
+                No top students data available.
+            </div>
+        @endif
+    
+</body>
+</html>
