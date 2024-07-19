@@ -78,10 +78,7 @@ The system provides various reports and analytics including:
 2. **Code Implementation**: Submit via Git. Each member will be assessed based on their committed code.
 3. **Project Presentation**: Present the work from 29th July 2024 to 3rd August 2024. Marks are awarded only to those who present.
 
-## Contact Information
-
-For inquiries, please contact:
-- **Email**: [mnsabagwa@cit.ac.ug](mailto:mnsabagwa@cit.ac.ug)
+#
 
 ---
 
