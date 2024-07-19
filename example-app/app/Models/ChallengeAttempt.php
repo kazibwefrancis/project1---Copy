@@ -27,16 +27,15 @@ class ChallengeAttempt extends Model
     public static function getTopTwoStudentsPerChallenge()
     {
         // Retrieve top two students per challenge
-        $topStudents = DB::table('ChallengeAttempt')
+        $topStudents = DB::table('challengeattempt')
             ->select('challenges.challenge_no', 'participant.name', 'participant.school_reg_no', 'ChallengeAttempt.score')
             ->join('participant', 'ChallengeAttempt.participant_id', '=', 'participant.id')
             ->join('challenges', 'ChallengeAttempt.challenge_no', '=', 'challenges.id')
             ->orderBy('challenges.id')
-            ->orderByDesc('ChallengeAttempt.score')
+            ->orderByDesc('challengeattempt.score')
             ->groupBy('challenges.id', 'participant.id')
             ->get();
 
-        // Prepare formatted data for top students per challenge
         $formattedTopStudents = [];
 
         foreach ($topStudents as $student) {
