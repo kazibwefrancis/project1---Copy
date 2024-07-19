@@ -9,10 +9,13 @@ class Question extends Model
 {
     use HasFactory;
 
-    protected $table='questions';
+    protected $table='question';
     protected $fillable = [
         'question_no',
         'question_text',
+        'answer',
+        'marks',
+        'challenge_no',
     ];
 
 }

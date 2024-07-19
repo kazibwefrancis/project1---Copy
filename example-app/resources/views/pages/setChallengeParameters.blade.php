@@ -16,14 +16,14 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mb-4">Set Challenge Parameters</h1>
-        
+        <h1 class="mb-4">Setup Challenge</h1>
+
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
-        
+
         @if($errors->any())
             <div class="alert alert-danger">
                 @foreach($errors->all() as $error)
@@ -31,46 +31,50 @@
                 @endforeach
             </div>
         @endif
-        
-        <form action="{{ route('challenges.store') }}" method="POST" class="needs-validation" novalidate>
-            @csrf
-            <div class="form-group">
-                <label for="challenge_name">Challenge Name:</label>
-                <input type="text" name="challenge_name" id="challenge_name" class="form-control" required>
-                <div class="invalid-feedback">
-                    Please enter the challenge name.
-                </div>
+
+        <div class="card">
+            <div class="card-body">
+                <form action="{{route('challenges.store')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group mb-3">
+                        <label for="challenge_name">Challenge Name</label>
+                        <input type="text" class="form-control" id="challenge_name" name="challenge_name" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="start_date">Start Date</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="end_date">End Date</label>
+                        <input type="date" class="form-control" id="end_date" name="end_date" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="duration">Duration (in minutes)</label>
+                        <input type="number" class="form-control" id="duration" name="duration" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="number_of_questions">Number of Questions</label>
+                        <input type="number" class="form-control" id="number_of_questions" name="number_of_questions" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="question_file">Upload Questions File (questions.xlsx)</label>
+                        <input type="file" class="form-control" id="question_file" name="question_file" accept=".xlsx" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="answer_file">Upload Answers File (answers.xlsx)</label>
+                        <input type="file" class="form-control" id="answer_file" name="answer_file" accept=".xlsx" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Set Challenge</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="start_date">Start Date:</label>
-                <input type="datetime-local" name="start_date" id="start_date" class="form-control" required>
-                <div class="invalid-feedback">
-                    Please enter the start date.
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="end_date">End Date:</label>
-                <input type="datetime-local" name="end_date" id="end_date" class="form-control" required>
-                <div class="invalid-feedback">
-                    Please enter the end date.
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="challenge_duration">Challenge Duration (in minutes):</label>
-                <input type="number" name="challenge_duration" id="challenge_duration" class="form-control" required>
-                <div class="invalid-feedback">
-                    Please enter the challenge duration.
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="number_of_questions">Number of Questions:</label>
-                <input type="number" name="number_of_questions" id="number_of_questions" class="form-control" required>
-                <div class="invalid-feedback">
-                    Please enter the number of questions.
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Set Parameters</button>
-        </form>
+        </div>
     </div>
 
     <!-- Include Bootstrap JS and dependencies -->

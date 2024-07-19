@@ -78,11 +78,13 @@
     <div class="overview">
         <div class="metric">
             <h3>Most Correctly Answered Questions</h3>
-            <p id="correct-questions">100</p>
+            <p id="correct-questions">{{ $data['title']}}</p> <!-- Laravel: Display count of correctly answered questions -->
         </div>
         <div class="metric">
             <h3>Top Schools</h3>
-            <p id="school-rankings">10</p>
+            <p id="school-rankings">{{ $data['description'] }}</p> <!-- Laravel: Display count of top schools -->
+
+
         </div>
     </div>
 
@@ -107,6 +109,7 @@
                 </tr>
             </thead>
             <tbody>
+
                 <tr>
                     <td>School A</td>
                     <td>45</td>
@@ -127,6 +130,7 @@
                 </tr>
             </thead>
             <tbody>
+
                 <tr>
                     <td>School C</td>
                     <td>95</td>
@@ -147,6 +151,7 @@
                 </tr>
             </thead>
             <tbody>
+
                 <tr>
                     <td>Participant 1</td>
                     <td>Challenge A</td>
@@ -155,6 +160,7 @@
                     <td>Participant 2</td>
                     <td>Challenge B</td>
                 </tr>
+
             </tbody>
         </table>
     </div>
@@ -162,14 +168,14 @@
     <div class="filters">
         <label for="date-filter">Date:</label>
         <input type="date" id="date-filter" name="date-filter">
-        
+
         <label for="category-filter">Category:</label>
         <select id="category-filter" name="category-filter">
             <option value="all">All</option>
             <option value="category1">Category 1</option>
             <option value="category2">Category 2</option>
         </select>
-        
+
         <button id="apply-filters">Apply Filters</button>
     </div>
 
@@ -230,6 +236,7 @@
                 },
                 scales: {
                     x: {
+
                         title: {
                             display: true,
                             text: 'Year'
@@ -240,6 +247,7 @@
                             display: true,
                             text: 'Performance'
                         },
+                        
                         beginAtZero: true
                     }
                 }
@@ -266,6 +274,7 @@
                     }
                 },
                 scales: {
+
                     x: {
                         title: {
                             display: true,
@@ -277,6 +286,7 @@
                             display: true,
                             text: 'Repetition Percentage'
                         },
+
                         beginAtZero: true
                     }
                 }
