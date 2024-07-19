@@ -1,3 +1,4 @@
+
 @extends('layouts.app', ['activePage' => 'dashboard', 'title' => 'Matheletics Challenge', 'navName' => 'Dashboard', 'activeButton' => 'laravel'])
 
 @section('content')
@@ -31,6 +32,15 @@
         }
         .charts {
             padding: 20px;
+        }
+        .chart-container {
+            width: 45%;
+            margin: auto;
+            margin-bottom: 20px;
+        }
+        .chart-container h3 {
+            text-align: center;
+            margin-bottom: 10px;
         }
         .tables {
             padding: 20px;
@@ -68,17 +78,23 @@
     <div class="overview">
         <div class="metric">
             <h3>Most Correctly Answered Questions</h3>
-            <p id="correct-questions">{{ $data['questions']->count() }}</p> <!-- Laravel: Display count of correctly answered questions -->
+            <p id="correct-questions">100</p>
         </div>
         <div class="metric">
             <h3>Top Schools</h3>
-            <p id="school-rankings">{{ $data['schools']->count() }}</p> <!-- Laravel: Display count of top schools -->
+            <p id="school-rankings">10</p>
         </div>
     </div>
 
     <div class="charts">
-        <canvas id="performanceChart"></canvas>
-        <canvas id="questionRepetitionChart"></canvas>
+        <div class="chart-container">
+            <h3>Performance of Schools and Participants Over Time</h3>
+            <canvas id="performanceChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h3>Percentage Repetition of Questions</h3>
+            <canvas id="questionRepetitionChart"></canvas>
+        </div>
     </div>
 
     <div class="tables">
@@ -91,13 +107,14 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Laravel: Loop through worst performing schools and display each -->
-                @foreach($data['worstSchools'] as $school)
-                    <tr>
-                        <td>{{ $school->name }}</td>
-                        <td>{{ $school->score }}</td>
-                    </tr>
-                @endforeach
+                <tr>
+                    <td>School A</td>
+                    <td>45</td>
+                </tr>
+                <tr>
+                    <td>School B</td>
+                    <td>50</td>
+                </tr>
             </tbody>
         </table>
 
@@ -110,13 +127,14 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Laravel: Loop through best performing schools and display each -->
-                @foreach($data['bestSchools'] as $school)
-                    <tr>
-                        <td>{{ $school->name }}</td>
-                        <td>{{ $school->score }}</td>
-                    </tr>
-                @endforeach
+                <tr>
+                    <td>School C</td>
+                    <td>95</td>
+                </tr>
+                <tr>
+                    <td>School D</td>
+                    <td>90</td>
+                </tr>
             </tbody>
         </table>
 
@@ -129,13 +147,14 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Laravel: Loop through participants with incomplete challenges and display each -->
-                @foreach($data['incompleteChallenges'] as $participant)
-                    <tr>
-                        <td>{{ $participant->name }}</td>
-                        <td>{{ $participant->challenges }}</td>
-                    </tr>
-                @endforeach
+                <tr>
+                    <td>Participant 1</td>
+                    <td>Challenge A</td>
+                </tr>
+                <tr>
+                    <td>Participant 2</td>
+                    <td>Challenge B</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -156,58 +175,115 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Example data for performance charts
+        const performanceData = {
+            labels: ['2020', '2021', '2022', '2023'],
+            datasets: [
+                {
+                    label: 'School A',
+                    data: [75, 85, 80, 90],
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: true,
+                    tension: 0.1
+                },
+                {
+                    label: 'School B',
+                    data: [65, 70, 75, 80],
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: true,
+                    tension: 0.1
+                }
+            ]
+        };
+
+        const repetitionData = {
+            labels: ['Participant 1', 'Participant 2', 'Participant 3'],
+            datasets: [{
+                label: 'Repetition Percentage',
+                data: [30, 45, 60],
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Create Performance Chart
         var ctx1 = document.getElementById('performanceChart').getContext('2d');
         var performanceChart = new Chart(ctx1, {
             type: 'line',
-            data: {
-                labels: [], // Fill with dates/years from Laravel
-                datasets: [{
-                    label: 'School Performance',
-                    data: [], // Fill with performance data from Laravel
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
+            data: performanceData,
             options: {
                 responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `${tooltipItem.dataset.label}: ${tooltipItem.formattedValue}%`;
+                            }
+                        }
+                    }
+                },
                 scales: {
-                    x: { 
-                        type: 'time',
-                        time: {
-                            unit: 'year'
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Year'
                         }
                     },
-                    y: { 
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Performance'
+                        },
                         beginAtZero: true
                     }
                 }
             }
         });
 
+        // Create Repetition Chart
         var ctx2 = document.getElementById('questionRepetitionChart').getContext('2d');
         var questionRepetitionChart = new Chart(ctx2, {
             type: 'bar',
-            data: {
-                labels: [], // Fill with participants from Laravel
-                datasets: [{
-                    label: 'Question Repetition Percentage',
-                    data: [], // Fill with repetition data from Laravel
-                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                    borderColor: 'rgba(153, 102, 255, 1)',
-                    borderWidth: 1
-                }]
-            },
+            data: repetitionData,
             options: {
                 responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `${tooltipItem.dataset.label}: ${tooltipItem.formattedValue}%`;
+                            }
+                        }
+                    }
+                },
                 scales: {
-                    y: { 
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Participant'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Repetition Percentage'
+                        },
                         beginAtZero: true
                     }
                 }
             }
         });
 
+        // Apply Filters
         document.getElementById('apply-filters').addEventListener('click', function() {
             let date = document.getElementById('date-filter').value;
             let category = document.getElementById('category-filter').value;
@@ -222,18 +298,23 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Update the page with filtered data
-                document.getElementById('correct-questions').innerText = data.questions.length;
-                document.getElementById('school-rankings').innerText = data.schools.length;
+                // Update metrics
+                document.getElementById('correct-questions').innerText = data.questionsCount;
+                document.getElementById('school-rankings').innerText = data.schoolsCount;
 
+                // Update charts
                 performanceChart.data.labels = data.performance.labels;
-                performanceChart.data.datasets[0].data = data.performance.data;
+                performanceChart.data.datasets[0].data = data.performance.data[0];
+                performanceChart.data.datasets[1].data = data.performance.data[1];
                 performanceChart.update();
 
-                questionRepetitionChart.data.labels = data.repetition.labels;
+                questionRepetitionChart.data.labels =
+
+ data.repetition.labels;
                 questionRepetitionChart.data.datasets[0].data = data.repetition.data;
                 questionRepetitionChart.update();
 
+                // Update tables
                 const worstSchoolsTableBody = document.getElementById('worst-schools').getElementsByTagName('tbody')[0];
                 worstSchoolsTableBody.innerHTML = '';
                 data.worstSchools.forEach(school => {
@@ -262,3 +343,4 @@
     </script>
 </body>
 @endsection
+```
