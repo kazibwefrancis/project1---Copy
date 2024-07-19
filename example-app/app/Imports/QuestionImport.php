@@ -20,10 +20,16 @@ class QuestionImport implements ToModel, WithHeadingRow
 
     public function model(array $row)
     {
-        return new Question([
+//        return new Question([
+//            //'id' => $row['no'],
+//            'question_text' => $row['question'],
+//            'challenge_no' => $this->challenge_no,
+//        ]);
+        Question::create([
             'id' => $row['no'],
             'question_text' => $row['question'],
             'challenge_no' => $this->challenge_no,
-        ]);
+        ]
+        );
     }
 }
