@@ -97,16 +97,16 @@
                                 <div class="author">
                                     <a href="#">
                                         <img class="avatar border-gray" src="{{ asset('light-bootstrap/img/faces/face-3.jpg') }}" alt="...">
-                                        <h5 class="title">{{ __('Mike Andrew') }}</h5>
+                                        <h5 class="title">{{ auth()->user()->name }}</h5>
                                     </a>
                                     <p class="description">
-                                        {{ __('michael24') }}
+                                        {{ __('Adminstrator') }}
                                     </p>
                                 </div>
                                 <p class="description text-center">
-                                {{ __(' "Lamborghini Mercy') }}
-                                    <br> {{ __('Your chick she so thirsty') }}
-                                    <br> {{ __('I am in that two seat Lambo') }}
+                                    {{ __(' Matheletics registered admin') }}
+                                    <br> {{ __('2024 Matheletics Inc') }}
+                                    <br> {{ __('Code republic ') }}
                                 </p>
                             </div>
                             <hr>
