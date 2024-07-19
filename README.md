@@ -72,14 +72,5 @@ The system provides various reports and analytics including:
 2. **Server (Java)**: Manages file and database manipulations for the command line interface.
 3. **Web Interface (PHP, Laravel Framework)**: Includes design elements like a system logo.
 
-### Submission Guidelines
-
-1. **Design Document**: Submit on Muele by the deadline (19th June 2024). Late submissions will not be accepted.
-2. **Code Implementation**: Submit via Git. Each member will be assessed based on their committed code.
-3. **Project Presentation**: Present the work from 29th July 2024 to 3rd August 2024. Marks are awarded only to those who present.
-
-#
-
----
 
 Thank you for participating in the Mathematics Challenge!
