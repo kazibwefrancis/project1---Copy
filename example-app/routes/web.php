@@ -74,4 +74,4 @@ Route::get('/participants/{id}', [ParticipantController::class, 'show'])->name('
 
 use App\Http\Controllers\AnalyticsController;
 
-Route::get('/analytics', [AnalyticsController::class, 'showAnalytics'])->name('analytics');
+Route::get('/analytics', [AnalyticsController::class, 'showAnalytics'])->name('analytics.index');
