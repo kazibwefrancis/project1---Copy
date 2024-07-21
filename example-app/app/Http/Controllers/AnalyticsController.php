@@ -9,25 +9,52 @@ use Illuminate\Http\Request;
 
 class AnalyticsController extends Controller
 {
-    public static function getTopTwoParticipants()
+    public function index()
     {
-        // Using raw SQL to select top two participants per challenge based on their scores
-        $topParticipants = DB::select("
-            SELECT challenge_no, participant_id, MAX(score) AS max_score
-            FROM challengeattempt
-            GROUP BY challenge_no, participant_id
-            ORDER BY challenge_no ASC, max_score DESC
-        ");
-
-        // Organize the data by challenge_no for easier display
-        $challenges = [];
-        foreach ($topParticipants as $participant) {
-            $challenges[$participant->challenge_no][] = [
-                'participant_id' => $participant->participant_id,
-                'max_score' => $participant->max_score,
-            ];
-        }
-        
+        $challenges = AnalyticsController::getTopTwoParticipants();
         return view('pages.analytics', compact('challenges'));
     }
+
+    public function getTopTwoParticipants()
+{
+    // Subquery to get the max scores for each challenge
+    $subquery = DB::table('challengeattempt')
+        ->select('challenge_no', DB::raw('MAX(score) as max_score'))
+        ->groupBy('challenge_no');
+
+    // Main query to join with participant and schools to get the top two participants
+    $topParticipants = DB::table('challengeattempt as ca')
+        ->join('challenges as c', 'ca.challenge_no', '=', 'c.id')
+        ->join('participant as p', 'ca.participant_id', '=', 'p.id')
+        ->join('schools as s', 'p.school_reg_no', '=', 's.registration_number')
+        ->select('ca.challenge_no', 'c.challenge_name', 's.school_name', 'p.name as participant_name', 'ca.score')
+        ->whereRaw('(ca.challenge_no, ca.score) IN (' . $subquery->toSql() . ')')
+        ->mergeBindings($subquery)
+        ->orderBy('ca.challenge_no')
+        ->orderByDesc('ca.score')
+        ->get();
+
+    $challenges = [];
+
+    foreach ($topParticipants as $participant) {
+        if (!isset($challenges[$participant->challenge_no])) {
+            $challenges[$participant->challenge_no] = [
+                'challenge_name' => $participant->challenge_name,
+                'participants' => []
+            ];
+        }
+
+        $challenges[$participant->challenge_no]['participants'][] = [
+            'participant_name' => $participant->participant_name,
+            'school_name' => $participant->school_name,
+            'score' => $participant->score,
+        ];
+
+        if (count($challenges[$participant->challenge_no]['participants']) >= 2) {
+            break; 
+        }
+    }
+
+    return $challenges;
+}
 }

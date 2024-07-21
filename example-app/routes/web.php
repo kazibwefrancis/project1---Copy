@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 use App\Http\Controllers\AnalyticsController;
 
-Route::get('/analytics', [AnalyticsController::class, 'getTopTwoParticipants'])->name('analytics.index');
+Route::get('/analytics', [AnalyticsController::class,'index'])->name('analytics.index');
 
 
 Auth::routes();

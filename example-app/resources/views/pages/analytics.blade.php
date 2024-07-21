@@ -10,36 +10,41 @@
 </head>
 <body>
     <div class="container">
-        <h2>Analytics Dashboard</h2>
+    <h2>Analytics Dashboard</h2>
 
-        @if (!empty($topStudents))
-            <table>
-                <thead>
+    @if (!empty($challenges))
+
+        <table border="1">
+            <thead>
                 <tr>
-                    <th>Challenge No</th>
-                    <th>Participant ID</th>
-                    <th>Max Score</th>
+                    <th>Challenge Name</th>
+                    <th>Participant Name</th>
+                    <th>School Name</th>
+                    <th>Score</th>
                 </tr>
-                </thead>
+            </thead>
             <tbody>
-                @foreach ($topParticipants as $challengeNo => $participants)
-                    @foreach ($participants as $participant)
+                @foreach ($challenges as $challengeNo => $challenge)
+                    @foreach ($challenge['participants'] as $key => $participant)
                         <tr>
-                            @if ($loop->first)
-                                <td rowspan="{{ count($participants) }}">{{ $challengeNo }}</td>
+                            @if ($key === 0)
+                                <td rowspan="{{ count($challenge['participants']) }}">{{ $challenge['challenge_name'] }}</td>
                             @endif
-                            <td>{{ $participant['participant_id'] }}</td>
-                            <td>{{ $participant['max_score'] }}</td>
+                            <td>{{ $participant['participant_name'] }}</td>
+                            <td>{{ $participant['school_name'] }}</td>
+                            <td>{{ $participant['score'] }}</td>
                         </tr>
                     @endforeach
                 @endforeach
             </tbody>
-            </table>
-        @else
-            <div class="alert alert-warning" role="alert">
-                No top students data available.
-            </div>
-        @endif
+        </table>
+
+    @else
+        <div class="alert alert-warning" role="alert">
+            No data available.
+        </div>
+    @endif
+</div>
     
 </body>
 </html>
