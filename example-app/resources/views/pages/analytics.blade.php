@@ -10,24 +10,15 @@
         <h2>Analytics Dashboard</h2>
 
         @if (!empty($topStudents))
-            <div class="card">
-                <div class="card-header">
-                    Top Performing Participants
-                </div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        @foreach ($topStudents as $challengeNo => $students)
-                            @foreach ($students as $student)
-                                <li class="list-group-item">
-                                    <strong>Name:</strong> {{ $student['name'] }} <br>
-                                    <strong>School:</strong> {{ $student['school'] }} <br>
-                                    <strong>Score:</strong> {{ $student['score'] }} <br>
-                                </li>
-                            @endforeach
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
+        <div class="container">
+        <h1>Top Two Participants Per Challenge</h1>
+
+        <ul>
+            @foreach ($topParticipants as $participant)
+                <li>Challenge No: {{ $participant->challenge_no }}, Participant ID: {{ $participant->participant_id }}, Score: {{ $participant->max_score }}</li>
+            @endforeach
+        </ul>
+    </div>
         @else
             <div class="alert alert-warning" role="alert">
                 No top students data available.

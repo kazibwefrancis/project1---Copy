@@ -17,6 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+use App\Http\Controllers\AnalyticsController;
+
+Route::get('/analytics', [AnalyticsController::class, 'getTopTwoParticipants'])->name('analytics.index');
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -70,8 +75,3 @@ use App\Http\Controllers\ParticipantController;
 
 Route::get('/participants', [ParticipantController::class, 'index'])->name('participants.index');
 Route::get('/participants/{id}', [ParticipantController::class, 'show'])->name('participants.show');
-
-
-use App\Http\Controllers\AnalyticsController;
-
-Route::get('/analytics', [AnalyticsController::class, 'showAnalytics'])->name('analytics.index');
