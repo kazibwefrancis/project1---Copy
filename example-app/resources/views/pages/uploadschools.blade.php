@@ -1,3 +1,6 @@
+@extends('layouts.app', ['activePage' => 'dashboard', 'title' => 'Matheletics Challenge', 'navName' => 'Dashboard', 'activeButton' => 'laravel'])
+
+@section('content')
 <!DOCTYPE html>
 <html>
 <head>
@@ -89,3 +92,4 @@
     </script>
 </body>
 </html>
+@endsection
