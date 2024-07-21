@@ -182,11 +182,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Example data for performance charts
+        const sch = @json($school);
+        console.log('Performance:', performance);
+
         const performanceData = {
             labels: ['2020', '2021', '2022', '2023'],
             datasets: [
                 {
-                    label: 'School A',
+                  
+                    label: sch[0],
                     data: [75, 85, 80, 90],
                     borderColor: 'rgba(255, 99, 132, 1)',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -194,9 +198,17 @@
                     tension: 0.1
                 },
                 {
-                    label: 'School B',
+                    label: sch[1],
                     data: [65, 70, 75, 80],
                     borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: true,
+                    tension: 0.1
+                },
+                {
+                    label: sch[1],
+                    data: [65, 50, 35, 83],
+                    borderColor: 'rgba(34, 162, 235, 1)',
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     fill: true,
                     tension: 0.1

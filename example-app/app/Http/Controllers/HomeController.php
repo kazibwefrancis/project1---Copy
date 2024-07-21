@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\School;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,7 +27,12 @@ class HomeController extends Controller
         $data = array(
             'title' => 'Dashboard',
             'description' => 'This is the dashboard page'
+
         );
-        return view('dashboard')->with('data', $data);
+
+        $school= School::pluck('school_name');
+        
+        return view('dashboard',compact('school'))->with('data', $data);
     }
+   
 }
