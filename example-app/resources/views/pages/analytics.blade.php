@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'dashboard', 'title' => 'Matheletics Challenge', 'navName' => 'Dashboard', 'activeButton' => 'laravel'])
+@extends('layouts.app', ['activePage' => 'dashboard', 'title' => 'Matheletics Challenge', 'navName' => 'Analytics', 'activeButton' => 'laravel'])
 
 @section('content')
 <!DOCTYPE html>
@@ -10,11 +10,13 @@
 </head>
 <body>
     <div class="container">
-    <h2>Analytics Dashboard</h2>
+        <br>
 
     @if (!empty($challenges))
 
-        <table border="1">
+    <h3> <u>Top participants per challenge</u> </h3>
+
+        <table border="1" width="50%">
             <thead>
                 <tr>
                     <th>Challenge Name</th>
