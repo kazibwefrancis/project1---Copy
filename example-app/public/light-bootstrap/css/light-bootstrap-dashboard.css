@@ -210,6 +210,7 @@ body,
 .wrapper {
     min-height: 100vh;
     position: relative;
+  
 }
 
 a {
@@ -284,6 +285,7 @@ input:focus {
     position: relative;
     top: 0;
     height: 100vh;
+    margin-left: 0px;
 }
 
 .page-header .page-header-image {
@@ -357,6 +359,8 @@ body>.navbar-collapse .sidebar-wrapper {
     width: 260px;
     z-index: 4;
     padding-bottom: 100px;
+    
+  
 }
 
 .sidebar .sidebar-background,
@@ -4003,6 +4007,7 @@ Copyright (c) 2015 Daniel Eden
     .sidebar {
         right: 0 !important;
         left: auto;
+        
         position: absolute;
         -webkit-transform: translate3d(262px, 0, 0);
         -moz-transform: translate3d(262px, 0, 0);

@@ -20,7 +20,7 @@
         <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('light-bootstrap/img/faviconmath.png') }}">
         <link rel="icon" type="image/png" href="{{ asset('light-bootstrap/img/faviconmath.png') }}">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <title>{{ $title }}</title>
+       <!-- removed the title variable -->
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
         <!--     Fonts and icons     -->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
@@ -36,7 +36,7 @@
         <div class="wrapper @if (!auth()->check() || request()->route()->getName() == "") wrapper-full-page @endif">
 
             @if (auth()->check() && request()->route()->getName() != "")
-                @include('layouts.navbars.sidebar')
+                @include('partials.sidebar')
                 
             @endif
 

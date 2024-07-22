@@ -1,3 +1,4 @@
+@extends('layouts.app')
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,14 +7,13 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Optional: Custom CSS for additional styling */
-        body {
-            padding: 20px;
-        }
+       
         .form-group {
             margin-bottom: 20px;
         }
     </style>
 </head>
+@section('content')
 <body>
     <div class="container">
         <h1 class="mb-4">Setup Challenge</h1>
@@ -100,4 +100,5 @@
         })();
     </script>
 </body>
+@endsection
 </html>
