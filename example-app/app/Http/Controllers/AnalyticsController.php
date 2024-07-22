@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\ChallengeAttempt;
+use Carbon\Carbon;
+use App\Models\Challenge;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,8 @@ class AnalyticsController extends Controller
     public function index()
     {
         $challenges = AnalyticsController::getTopTwoParticipants();
-        return view('pages.analytics', compact('challenges'));
+        $validchallenges = AnalyticsController::displayChallenges();
+        return view('pages.analytics', compact('challenges','validchallenges'));
     }
 
     public function getTopTwoParticipants()
@@ -53,5 +55,39 @@ class AnalyticsController extends Controller
         }
 
         return $challenges;
+    }
+
+    public function displayChallenges()
+    {
+        $validchallenges = DB::table('challenges')
+        ->select('id', 'challenge_name', 'start_date', 'end_date')
+        ->where('end_date', '>', now())
+        ->orderBy('end_date')
+        ->get();
+
+        $validchallenges = Challenge::where('end_date', '>', now())->orderBy('end_date')->get();
+
+        $validchallenges->each(function ($challenge) {
+            $now = now();
+            $endTime = Carbon::parse($challenge->end_date);
+            $diffInSeconds = max($endTime->diffInSeconds($now), 0);
+
+            $days = floor($diffInSeconds / 86400);
+            $diffInSeconds -= $days * 86400;
+            $hours = floor($diffInSeconds / 3600);
+            $diffInSeconds -= $hours * 3600;
+            $minutes = floor($diffInSeconds / 60);
+            $seconds = $diffInSeconds % 60;
+
+            // Add remaining time to the challenge object
+            $challenge->remainingTime = [
+                'days' => $days,
+                'hours' => $hours,
+                'minutes' => $minutes,
+                'seconds' => $seconds,
+            ];
+        });
+
+        return $validchallenges;
     }
 }

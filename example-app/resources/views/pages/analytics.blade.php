@@ -46,7 +46,30 @@
             No data available.
         </div>
     @endif
-</div>
+    <br>
+
+    
+    <div>
+        @if (!empty($validchallenges))
+            <h3> <u>Valid challenges and time left</u> </h3>
+
+            @foreach ($validchallenges as $challenge)
+                <div class="challenge-item">
+                    <h6>{{ $challenge->challenge_name }}</h6>
+                    <p>
+                        Time left: {{ $challenge->remainingTime['days'] }} days
+                        {{ $challenge->remainingTime['hours'] }} hours
+                        {{ $challenge->remainingTime['minutes'] }} minutes
+                        {{ $challenge->remainingTime['seconds'] }} seconds
+                    </p>
+                </div>
+            @endforeach
+        @else
+            <div class="alert alert-warning" role="alert">
+                No valid challenges available.
+            </div>
+        @endif
+    </div>
     
 </body>
 </html>
