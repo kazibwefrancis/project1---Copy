@@ -17,4 +17,6 @@ class Challenge extends Model
         'challenge_duration',
         'number_of_questions',
     ];
+
+    protected $dates = ['start_date','end_date'];
 }

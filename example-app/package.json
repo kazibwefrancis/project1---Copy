@@ -21,6 +21,8 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
-        "chart.js": "^4.4.3"
+        "chart.js": "^4.4.3",
+        "countdown": "^2.6.0",
+        "moment": "^2.30.1"
     }
 }
